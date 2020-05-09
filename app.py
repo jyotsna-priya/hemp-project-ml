@@ -11,12 +11,10 @@ from load import *
 import numpy as np
 import glob
 
-# UPLOAD_FOLDER = '/Users/jyotsna/Sites/cmpe257/static/images'
 UPLOAD_FOLDER = os.path.join('static', 'images')
 filePath = "/Users/jyotsna/Sites/cmpe257/static/images/"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
-# app = Flask(__name__, static_url_path='/static', static_folder='/static')
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -33,14 +31,8 @@ def delete_images():
 @app.route('/hemp', methods = ['GET', 'POST'])
 def hemp_func():
     if request.method == 'GET':
-    #     if os.path.exists(filePath):
-    #         for f in filePath:
-    #             os.remove(f)
-        #     os.remove(filePath)
-        # else:
-        #     print("Can not delete the file as it doesn't exists")
         delete_images()
-        return render_template('hemp.html')#, value = 'Hey There Hemp Enthusiasts!')
+        return render_template('hemp.html')
 
     if request.method == 'POST':
         filename = ''
@@ -105,20 +97,8 @@ def hemp_func():
         else:
             disease_name = 'Model Not Trained On such Image'
 
-        #real_emotion = category_names[test_subset_generator.classes[img_nr]]
-        # image = x[0]
-        # plt.title('Predicted: ' + pred_emotion + '\n' + 'Actual:      ' + real_emotion)
-        # plt.imshow(image)
-        # plt.show()
-            # img_nr = img_nr +1
-
-        # accuracy = accuracy_score(test_generator.classes, y_pred)
-        # print("Accuracy in test set: %0.1f%% " % (accuracy * 100))
         user_image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         print(user_image)
-
-        # probs = model.predict()[0]
-        # y_pred1 = np.argmax(Y_pred2, axis=1)
 
         return render_template('predict.html', pred_emotion = pred_emotion, disease_name = disease_name, user_image = user_image, perc = perc)
 

@@ -20,9 +20,5 @@ def init():
 
 	#compile and evaluate loaded model
 	model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['accuracy'])
-	#loss,accuracy = model.evaluate(X_test,y_test)
-	#print('loss:', loss)
-	#print('accuracy:', accuracy)
-	# graph = tf.get_default_graph()
 
 	return model #, graph
