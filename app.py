@@ -61,7 +61,7 @@ def show_options():
 #route for vgg16
 @app.route('/vgg16', methods = ['GET'])
 def vgg16():
-	model = init()
+	model = init_vgg16()
 
 	test_subset_data_dir = "/Users/jyotsna/Sites/cmpe257/static/"
 

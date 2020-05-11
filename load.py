@@ -5,7 +5,7 @@
 from tensorflow.keras import layers, models, Model, optimizers
 import tensorflow as tf
 
-def init():
+def init_vgg16():
 	# json_file = open('models/hemp_classifier_json.json','r')
 	# loaded_model_json = json_file.read()
 	# json_file.close()
@@ -15,7 +15,7 @@ def init():
 	#print("Loaded Model from disk")
 
 	# load model
-	model = models.load_model("/Users/jyotsna/Sites/cmpe257/models/hemp_classifier1.h5")
+	model = models.load_model("models/hemp_classifier1.h5")
 	print("Loaded Model from disk")
 
 	#compile and evaluate loaded model
