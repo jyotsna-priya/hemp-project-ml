@@ -53,32 +53,42 @@
           text-align: center;
         }
         </style>
+        <script type="text/javascript">
+          
+        </script>
 </head>
 
 <body>
         <div class="wrapper">
             <div class="head"><h2>Hemp Disease Classification</h2></div>
             <hr>
-            <h2>Image Prediction!</h2>
+            <h2>Please Select the Model you want to Test</h2>
+            <form method = 'get' action='/svm'>
+                <fieldset style="background-color: #E8EAEA">
+                    <input type="submit" value="SVM Model">
+                </fieldset>
+            </form>
+            <form method = 'get' action='/vgg16'>
+              <fieldset style="background-color: #E8EAEA">
+                    <input type="submit" value="VGG16 with Logistic Regression">
+                </fieldset>
+            </form>
+            <form method = 'get' action='/alexnet'>
+              <fieldset style="background-color: #E8EAEA">
+                    <input type="submit" value="Alexnet with Random Forest">
+              </fieldset>
+            </form>   
+            <form method = 'get' action='/resnet50'> 
+                <fieldset style="background-color: #E8EAEA">
+                    <input type="submit" value="RESNET50">
+                </fieldset>
+            </form>
 
-            <h3>The image you uploaded</h3>
-            <img src="{{ user_image }}" alt="User Image" width="200" height="200">
-            <!-- {% for name in image_names %}
-              <img src="{{ url_for('static', filename='images/' + name) }}" >
-            {% endfor %} -->
             <hr>
-
-            <h3>Predicted by model:</h3>
-            <!-- <strong><p>Class Name: </p></strong>
-            <p>{{pred_emotion}}</p> -->
-            <strong><p>Disease Name: </p></strong>
-            <p>{{disease_name}}</p>
-            <strong><p>Percentage of prediction: </p></strong>
-            <p>{{perc}}%</p>
-            <hr>
-
-            <form method = 'get' action='/options'>
-              <input type="submit" value="Test Another Model">
+            <form method = 'get' action='/hemp'> 
+                <fieldset style="background-color: #E8EAEA">
+                    <input type="submit" value="Test with other Image">
+                </fieldset>
             </form>
         </div>
 </body>
