@@ -12,7 +12,7 @@ import numpy as np
 import glob
 
 UPLOAD_FOLDER = os.path.join('static', 'images')
-FILEPATH = "/Users/jyotsna/Sites/cmpe257/static/images/"
+FILEPATH = "static/images/"
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
@@ -63,7 +63,7 @@ def show_options():
 def vgg16():
 	model = init_vgg16()
 
-	test_subset_data_dir = "/Users/jyotsna/Sites/cmpe257/static/"
+	test_subset_data_dir = "static/"
 
 	test_datagen =  ImageDataGenerator(
 	    rescale=1./255
@@ -106,11 +106,9 @@ def vgg16():
 	else:
 	    disease_name = 'Model Not Trained On such Image'
 
-	#user_image = os.path.join(app.config['UPLOAD_FOLDER'], str(os.listdir(app.config['UPLOAD_FOLDER'])).strip('[]'))
-	#user_image = os.listdir(app.config['UPLOAD_FOLDER'])
 	fileName = os.listdir(FILEPATH)[0]
 	user_image = os.path.join(app.config['UPLOAD_FOLDER'], fileName)
-	print('user image', user_image)
+	#print('user image', user_image)
 
 	return render_template('predict.html', pred_emotion = pred_emotion, disease_name = disease_name, user_image = user_image, perc = perc)
 
