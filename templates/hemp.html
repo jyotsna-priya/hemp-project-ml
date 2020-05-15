@@ -1,33 +1,46 @@
-<!DOCTYPE html>
 <html>
 <head>
         <title>Hemp Disease Classification</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
+        
         body {
             font: 16px sans-serif;
-            font-family: Arial, Helvetica, sans-serif;
+            font-family: Georgia, Helvetica, sans-serif;
             margin: auto;
             background-color: #d5ecf2;
+            
         }
-        * {box-sizing: border-box}
+        .banner-image{
+          width: 990px;
+            height: 250px;
+		
+            margin-left: 7em;
+        }
 
         .wrapper{
-            width: 700px;
+            width: 950px;
+            height: 300px;
             padding: 20px;
-            margin-left: 10em;
+            margin-top: 0;
+	margin-left:7em;
             border:1px solid black;
-            background-color: #f2f2f2;
+            background-color: #AAEDBA;
+            
             /*background-color: #D0DBDA;*/
         }
+	.upload-image{
+	height: 150px;
+	float: left;
+	}
 
         hr {
             /*border: 1px solid #f1f1f1;*/
             border: 1px, solid #078EC1;
             margin-bottom: 15px;
         }
-        input[type=submit] {
+	 input[type=submit] {
           width: 100%;
           background-color: #078EC1;
           color: white;
@@ -36,15 +49,26 @@
           border: none;
           border-radius: 4px;
           cursor: pointer;
-          font: 20px sans-serif;
+          font: 25px Georgia;
         }
         input[type=submit]:hover {
-          background-color: orange;
+          background-color: #01DFA5;
           opacity: 1;
         }
+	.file: {
+          font: 50px Georgia;
+        }
+	
+	.file {
+	margin: 0 auto;
+    text-align: center;
+    width: 400px;
+	font: 25px Georgia;
+	}
         .head {
             background-color: #078EC1;
             padding: 1px;
+	  height:80px;
         }
         h2 {
           color: white;
@@ -59,16 +83,25 @@
 </head>
 
 <body>
+        <div class ="banner">
+        
+       <img class="banner-image" src="{{url_for('static', filename='banner.jpg')}}">
+        </div>
         <div class="wrapper">
+            
             <div class="head"><h2>Hemp Disease Classification</h2></div>
             <hr>
             <h2>Upload You Image File</h2>
             <form method = 'post' action='/hemp' enctype='multipart/form-data'>
                 <fieldset style="background-color: #E8EAEA">
-                    <input type="file" name="file" required/>
+			
+
+                   <div class="file"> <input type="file"  name="file" required/></div>
                     <input type="submit" value="Upload">
                 </fieldset>
+           
             </form>
         </div>
+        
 </body>
 </html>
