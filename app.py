@@ -10,6 +10,9 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator, load_img
 from load import *
 import numpy as np
 import glob
+from sklearn.metrics import accuracy_score, confusion_matrix
+import matplotlib.image as mpimg
+from skimage.transform import resize
 
 UPLOAD_FOLDER = os.path.join('static', 'images')
 FILEPATH = "static/images/"
@@ -17,6 +20,8 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+#img = ""
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -26,6 +31,11 @@ def delete_images():
     for root, dirs, files in os.walk(FILEPATH):
         for file in files:
             os.remove(os.path.join(root, file))
+
+def image_read_scaled(path, size=(128,128)):
+    img = mpimg.imread(path)
+    img = resize(img, size, anti_aliasing=True)
+    return img
 
 # routes for hemp app
 @app.route('/hemp', methods = ['GET', 'POST'])
@@ -50,15 +60,71 @@ def hemp_func():
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             user_image = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-
+            img = user_image
         return render_template('options.html')
 
 #route for options
 @app.route('/options', methods = ['GET'])
 def show_options():
-	return render_template('options.html')
+    return render_template('options.html')
 
-#route for vgg16
+#route for svm
+@app.route('/svm', methods = ['GET'])
+def svm():
+
+    model = init_svm()
+    print ("svm model")
+    test_subset_data_dir = "static/images/"
+    #print ("image" +file)
+    list_images = []
+    #for image in glob.glob('static/images/*.jpg'):
+    for filename in os.listdir(test_subset_data_dir):#assuming jpg
+        image= test_subset_data_dir+filename
+        print(image)
+        #img=image_read_scaled(image)
+        list_images.append(image)
+        #print (image)
+    #list_images.append(file)
+    print ('I amout of for loop')
+    x_test_data, y_test_data = extract_features(list_images)
+
+    y_pred = model.predict(x_test_data)
+    prob = model.predict_proba(x_test_data)
+    max_prob = np.amax(prob) * 100.0
+    perc = ("{0:.2f}".format(max_prob))
+   
+    print('y_pred2', y_pred)
+    # print(category_names)
+    # print('test_subset_generator.classes', test_subset_generator.classes)
+
+    #x, y = test_subset_generator.next()
+    img_nr = 0
+    category_names = ['HealthyHemp', 'HempBudRot', 'HempLeafSpot', 'HempNutrientDef', 'HempPowderyMildew', 'NonHemp']
+	#pred_emotion = category_names[y_pred2[img_nr]]
+    if y_pred == ['1']:
+        disease_name = 'Healthy Hemp'
+    elif y_pred == ['4']:
+        disease_name = 'HempBudRot'
+    elif y_pred == ['2']:
+        disease_name = 'Hemp Leaf Spot'
+    elif y_pred == ['3']:
+        disease_name = 'Hemp Nutrient Deficiency'
+    elif y_pred == ['5']:
+        disease_name = 'Hemp Powdery Mildew'
+    elif y_pred == ['0']:
+        disease_name = 'Non Hemp'
+    else:
+        disease_name = 'Model Not Trained On such Image'
+
+    fileName = os.listdir(FILEPATH)[0]
+    user_image = os.path.join(app.config['UPLOAD_FOLDER'], fileName)
+	#print('user image', user_image)
+
+    return render_template('predict.html', disease_name = disease_name, 
+                           user_image = user_image, perc = perc)
+
+
+
 @app.route('/vgg16', methods = ['GET'])
 def vgg16():
 	model = init_vgg16()
@@ -111,6 +177,7 @@ def vgg16():
 	#print('user image', user_image)
 
 	return render_template('predict.html', pred_emotion = pred_emotion, disease_name = disease_name, user_image = user_image, perc = perc)
+
 
 
 if __name__ == '__main__':
